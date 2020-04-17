@@ -1,4 +1,5 @@
 /log/*
 !/log/.gitkeep
 .lein-repl-history
+**.swp
 

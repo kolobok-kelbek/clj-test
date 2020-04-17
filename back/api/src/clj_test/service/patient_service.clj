@@ -10,3 +10,8 @@
   []
   (patient-repo/get-all))
 
+(defn get-by-id
+  "Gets only one patient using its id"
+  [id]
+  (patient-repo/get-by-id id))
+
