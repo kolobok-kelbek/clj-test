@@ -20,3 +20,8 @@
     (cond (empty? results) {:status 404}
       :else (ok (first results)))))
 
+(defn create [patient]
+  (log/info (str "create-patient : " patient))
+  (let [patient-created (patient-service/create patient)]
+    (response (patient/to-view-identified patient-created))))
+

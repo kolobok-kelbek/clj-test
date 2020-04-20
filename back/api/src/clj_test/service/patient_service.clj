@@ -15,3 +15,8 @@
   [id]
   (patient-repo/get-by-id id))
 
+(defn create
+  "Adds a new patient to the database, returns the id if ok, null if invalid"
+  [patient]
+  (let [patient-created (patient-repo/create patient)] patient-created))
+
