@@ -1,19 +1,18 @@
 # clj-test
 
-FIXME
-
 ## Prerequisites
 
-You will need [Leiningen][] 2.0.0 or above installed.
-
-[leiningen]: https://github.com/technomancy/leiningen
+You will need Docker and docker-compose.
 
 ## Running
 
 To start a web server for the application, run:
 
-    lein ring server
+    `docker-compose up -d`
 
-## License
+Application will be available on 8080 port.
 
-Copyright © 2020 FIXME
+## API documentation
+
+[Swagger](http://localhost:8080/api/docs)
+
