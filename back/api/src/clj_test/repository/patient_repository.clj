@@ -1,5 +1,5 @@
 (ns clj-test.repository.patient-repository
-  (:use [korma.core :only [select insert values delete where set-fields exec-raw]])
+  (:use [korma.core :only [select insert values where set-fields exec-raw]])
   (:require [clojure.tools.logging :as log]
             [clj-test.model.patient :as patient-model]))
 
@@ -37,3 +37,10 @@
                (get patient :oms_number)
                id
               ]] :results)))
+
+(defn delete
+  "Deletes an existing patient on the database, returns id of deleted patient"
+  [id]
+  (log/info (str "repo delete, id : " id))
+  (korma.core/delete patient-model/patient (where {:id id})))
+

@@ -30,3 +30,9 @@
   (log/info "controller update - " (str patient))
   (let [patient-updated (response (patient/to-view-identified (patient-service/upgrade id patient)))] patient-updated))
 
+(defn delete [id]
+  (log/info (str "delete patient with id : " id))
+  (let [deleted-id (patient-service/delete id)]
+    (log/info (str "id of patient deleted : " deleted-id))
+    (if (= deleted-id 0) {:status 404} {:status 204})))
+

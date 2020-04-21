@@ -8,37 +8,43 @@
 (def patient-routes
   (context "/api/patients" [] :tags ["api-patients"]
     (GET "/" []
-          :summary "Gets all available patients"
-          :return [patient-model/patient-schema-view-identified]
-          :responses {200 {:schema [patient-model/patient-schema-view-identified],
-                           :description "List of patients"}}
-          (patient-controller/get-all))
+      :summary "Gets all available patients"
+      :return [patient-model/patient-schema-view-identified]
+      :responses {200 {:schema [patient-model/patient-schema-view-identified],
+                       :description "List of patients"}}
+      (patient-controller/get-all))
   (GET "/:id" []
-            :path-params [id :- String]
-            :return patient-model/patient-schema-view
-            :responses {200 {:schema patient-model/patient-schema-view-identified,
-                             :description "The patient found"}
-                        404 {:description "No patient found for this id"}}
-            :summary "Gets a specific patient by id"
-            (patient-controller/get-patient (Integer/parseInt id)))
+      :path-params [id :- String]
+      :return patient-model/patient-schema-view
+      :responses {200 {:schema patient-model/patient-schema-view-identified,
+                       :description "The patient found"}
+                  404 {:description "No patient found for this id"}}
+      :summary "Gets a specific patient by id"
+      (patient-controller/get-patient (Integer/parseInt id)))
   (POST "/" []
-          :body [patient patient-model/patient-schema-view]
-          :return patient-model/patient-schema-view-identified
-          :responses {201 {:schema patient-model/patient-schema-view-identified,
-                           :description "Returns the created patient"}
-                      400 {:description "Malformed request body"}}
-          :summary "Creates new patinets"
-          (patient-controller/create patient))
+      :body [patient patient-model/patient-schema-view]
+      :return patient-model/patient-schema-view-identified
+      :responses {201 {:schema patient-model/patient-schema-view-identified,
+                       :description "Returns the created patient"}
+                  400 {:description "Malformed request body"}}
+      :summary "Creates new patinets"
+      (patient-controller/create patient))
   (PUT "/:id" []
-            :path-params [id :- String]
-            :body [patient patient-model/patient-schema-view]
-            :return patient-model/patient-schema-view-identified
-            :responses {200 {:schema patient-model/patient-schema-view-identified,
-                             :description "The updated patient"}
-                        400 {:description "Malformed request body"}
-                        404 {:description "No patient found for this id"}}
-            :summary "Updates and existing patient by id"
-            (patient-controller/upgrade (Integer/parseInt id) patient))
+      :path-params [id :- String]
+      :body [patient patient-model/patient-schema-view]
+      :return patient-model/patient-schema-view-identified
+      :responses {200 {:schema patient-model/patient-schema-view-identified,
+                       :description "The updated patient"}
+                  400 {:description "Malformed request body"}
+                  404 {:description "No patient found for this id"}}
+      :summary "Updates and existing patient by id"
+      (patient-controller/upgrade (Integer/parseInt id) patient))
+  (DELETE "/:id" []
+      :path-params [id :- String]
+      :responses {204 {:description "Document successfuly deleted"}
+                  404 {:description "No document found for this id"}}
+      :summary "Updates and existing document by id"
+      (patient-controller/delete (Integer/parseInt id)))
   ))
 
 (defapi app-routes

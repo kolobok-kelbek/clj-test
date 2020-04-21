@@ -25,3 +25,8 @@
   [id data]
   (let [patient (patient-repo/upgrade id data)] patient))
 
+(defn delete
+  "Deletes an existing patient on the database, returns id of deleted patient"
+  [id]
+  (patient-repo/delete id))
+
