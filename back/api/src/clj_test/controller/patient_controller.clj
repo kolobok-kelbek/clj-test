@@ -10,9 +10,10 @@
             [clj-test.model.patient :as patient]
             [clj-test.config.db :as database]))
 
-(defn get-all []
+(defn get-list
+  [offset limit]
   (response
-      (patient-service/get-all)))
+      (patient-service/get-list offset limit)))
 
 (defn get-patient [id]
   (log/info (str "get-patient with id : " id))

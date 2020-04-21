@@ -5,10 +5,10 @@
             [clj-test.config.db :as database]
             [clj-test.repository.patient-repository :as patient-repo]))
 
-(defn get-all
-  "Gets all patinets from the database"
-  []
-  (patient-repo/get-all))
+(defn get-list
+  "Gets list patinets from the database"
+  [offset limit]
+  (patient-repo/get-list offset limit))
 
 (defn get-by-id
   "Gets only one patient using its id"
