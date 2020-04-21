@@ -11,7 +11,7 @@
 (def patient-schema
   {:id schema/Int
    :full_name schema/Str
-   :gender schema/Str
+   :gender (schema/enum "male" "female")
    :dob schema/Inst
    :address (schema/maybe schema/Str)
    :oms_number schema/Str
@@ -20,7 +20,7 @@
 
 (def patient-schema-view
   {:full_name schema/Str
-   :gender schema/Str
+   :gender (schema/enum "male" "female")
    :dob schema/Inst
    (schema/optional-key :address) (schema/maybe schema/Str)
    :oms_number schema/Str})
@@ -28,7 +28,7 @@
 (def patient-schema-view-identified
   {:id schema/Int
    :full_name schema/Str
-   :gender schema/Str
+   :gender (schema/enum "male" "female")
    :dob schema/Inst
    (schema/optional-key :address) (schema/maybe schema/Str)
    :oms_number schema/Str})
