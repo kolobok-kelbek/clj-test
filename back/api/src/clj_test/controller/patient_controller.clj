@@ -25,3 +25,8 @@
   (let [patient-created (patient-service/create patient)]
     (response (patient/to-view-identified patient-created))))
 
+(defn upgrade [id patient]
+  (log/info "id - " id)
+  (log/info "controller update - " (str patient))
+  (let [patient-updated (response (patient/to-view-identified (patient-service/upgrade id patient)))] patient-updated))
+

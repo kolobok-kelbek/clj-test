@@ -40,4 +40,5 @@
    :gender (get data :gender)
    :dob (get data :dob)
    :address (get data :address)
-   :oms_number (get data :oms_number)}] view))
+   :oms_number (get data :oms_number)
+  }] view))

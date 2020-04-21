@@ -20,3 +20,8 @@
   [patient]
   (let [patient-created (patient-repo/create patient)] patient-created))
 
+(defn upgrade
+  "Updates an existing patient on the database"
+  [id data]
+  (let [patient (patient-repo/upgrade id data)] patient))
+
