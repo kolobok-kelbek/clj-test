@@ -15,6 +15,11 @@
   [id]
   (patient-repo/get-by-id id))
 
+(defn get-total
+  "Gets total patients in database"
+  []
+  (patient-repo/get-total))
+
 (defn create
   "Adds a new patient to the database, returns the id if ok, null if invalid"
   [patient]

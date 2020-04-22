@@ -12,8 +12,8 @@
       :query-params [{offset :- Long 0}
                      {limit :- Long 200}]
       :summary "Gets list available patients"
-      :return [patient-model/patient-schema-view-identified]
-      :responses {200 {:schema [patient-model/patient-schema-view-identified],
+      :return patient-model/patient-list
+      :responses {200 {:schema patient-model/patient-list,
                        :description "List of patients"}}
       (log/info "offset - " offset)
       (log/info "limit - " limit)

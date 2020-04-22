@@ -12,8 +12,9 @@
 
 (defn get-list
   [offset limit]
-  (response
-      (map patient/to-view-identified (patient-service/get-list offset limit))))
+  (response {
+      :data (map patient/to-view-identified (patient-service/get-list offset limit))
+      :meta {:total (patient-service/get-total)}}))
 
 (defn get-patient [id]
   (log/info (str "get-patient with id : " id))

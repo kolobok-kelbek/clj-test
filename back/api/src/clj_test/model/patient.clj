@@ -34,6 +34,15 @@
    (schema/optional-key :address) (schema/maybe schema/Str)
    :oms_number schema/Str})
 
+(def meta-view
+  {:total schema/Int
+  })
+
+(def patient-list
+  {:data [patient-schema-view-identified]
+   :meta meta-view
+  })
+
 (defn to-view-identified
   [data]
   (let [view {:id (get data :id)

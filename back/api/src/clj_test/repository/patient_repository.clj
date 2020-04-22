@@ -1,5 +1,5 @@
 (ns clj-test.repository.patient-repository
-  (:use [korma.core :only [select insert values where set-fields exec-raw offset limit]])
+  (:use [korma.core :only [select insert values where set-fields exec-raw offset limit aggregate group fields]])
   (:require [clojure.tools.logging :as log]
             [clj-test.model.patient :as patient-model]))
 
@@ -15,6 +15,11 @@
   [id]
   (log/info (str "get-by-id repository, id: " id))
   (select patient-model/patient (where {:id id})))
+
+(defn get-total
+  "Get total patients database"
+  []
+  (get (first (exec-raw ["SELECT COUNT(*) FROM patients"] :results)) :count))
 
 (defn create
   "Adds a new patient to the database"
