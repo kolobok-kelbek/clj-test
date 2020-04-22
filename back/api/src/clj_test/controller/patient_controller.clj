@@ -13,13 +13,13 @@
 (defn get-list
   [offset limit]
   (response
-      (patient-service/get-list offset limit)))
+      (map patient/to-view-identified (patient-service/get-list offset limit))))
 
 (defn get-patient [id]
   (log/info (str "get-patient with id : " id))
   (let [results (patient-service/get-by-id id)]
     (cond (empty? results) {:status 404}
-      :else (ok (first results)))))
+      :else (ok (patient/to-view-identified (first results))))))
 
 (defn create [patient]
   (log/info (str "create-patient : " patient))

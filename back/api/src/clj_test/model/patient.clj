@@ -1,6 +1,7 @@
 (ns clj-test.model.patient
   (:use [korma.core :only [defentity table entity-fields pk]])
-  (:require [schema.core :as schema]))
+  (:require [schema.core :as schema])
+  (:import [java.time LocalDate]))
 
 ; -- Korma configuration
 (defentity patient
@@ -21,7 +22,7 @@
 (def patient-schema-view
   {:full_name schema/Str
    :gender (schema/enum "male" "female")
-   :dob schema/Inst
+   :dob LocalDate
    (schema/optional-key :address) (schema/maybe schema/Str)
    :oms_number schema/Str})
 
@@ -29,7 +30,7 @@
   {:id schema/Int
    :full_name schema/Str
    :gender (schema/enum "male" "female")
-   :dob schema/Inst
+   :dob LocalDate
    (schema/optional-key :address) (schema/maybe schema/Str)
    :oms_number schema/Str})
 
@@ -38,7 +39,7 @@
   (let [view {:id (get data :id)
    :full_name (get data :full_name)
    :gender (get data :gender)
-   :dob (get data :dob)
+   :dob (LocalDate/parse (.format (java.text.SimpleDateFormat. "yyyy-MM-dd") (get data :dob)))
    :address (get data :address)
    :oms_number (get data :oms_number)
   }] view))

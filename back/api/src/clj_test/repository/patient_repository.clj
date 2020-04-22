@@ -20,10 +20,10 @@
   "Adds a new patient to the database"
   [patient]
   (log/info (str "create-patient repository : " patient))
-  (first (exec-raw ["INSERT INTO patients (full_name, gender, dob, address, oms_number) VALUES (?, ?::gender, to_date(?,'YYYY-DD-MM'), ?, ?) RETURNING *"
+  (first (exec-raw ["INSERT INTO patients (full_name, gender, dob, address, oms_number) VALUES (?, ?::gender, to_date(?,'YYYY-MM-DD'), ?, ?) RETURNING *"
               [(get patient :full_name)
                (get patient :gender)
-               (.format (java.text.SimpleDateFormat. "yyyy-dd-MM") (get patient :dob))
+               (str (get patient :dob))
                (get patient :address)
                (get patient :oms_number)
               ]] :results)))
@@ -31,10 +31,10 @@
 (defn upgrade
   "Updates an existing patient on the database"
   [id patient]
-  (first (exec-raw ["UPDATE patients SET full_name = ?, gender = ?::gender, dob = to_date(?, 'YYYY-DD-MM'), address = ?, oms_number = ? WHERE id = ? RETURNING *"
+  (first (exec-raw ["UPDATE patients SET full_name = ?, gender = ?::gender, dob = to_date(?, 'YYYY-MM-DD'), address = ?, oms_number = ? WHERE id = ? RETURNING *"
               [(get patient :full_name)
                (get patient :gender)
-               (.format (java.text.SimpleDateFormat. "yyyy-dd-MM") (get patient :dob))
+               (str (get patient :dob))
                (get patient :address)
                (get patient :oms_number)
                id

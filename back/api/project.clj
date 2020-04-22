@@ -11,6 +11,7 @@
                  [ring/ring-defaults "0.3.1"] ; ring server default dependencies
                  [org.clojure/data.json "0.2.6"]
                  [ring/ring-defaults "0.3.2"]
+                 [clojure.java-time "0.3.2"]
                  [org.clojure/java.jdbc "0.7.1"]
                  [korma "0.4.3"]
                  [org.postgresql/postgresql "42.2.4"]]
