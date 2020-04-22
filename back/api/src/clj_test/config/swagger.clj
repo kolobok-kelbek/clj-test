@@ -4,7 +4,7 @@
   {:swagger
    {:ui "/api/docs"
     :spec "/api/swagger.json"
-    :data {:info {:title "Simple Clojure API"
-                  :description "Example Clojure api for Ippon Blog Article"}
-           :tags [{:name "api-documents", :description "Api document endpoints"}]}}})
+    :data {:info {:title "Swagger documentation to clojure test task"
+                  :description "Swagger documentation to clojure test task about patients"}
+           :tags [{:name "api-patients", :description "Api patients endpoints"}]}}})
 
