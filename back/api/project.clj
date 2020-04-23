@@ -9,9 +9,11 @@
                  [metosin/compojure-api "1.1.11"]
                  [ring/ring-json "0.4.0"] ; ring server json support
                  [ring/ring-defaults "0.3.1"] ; ring server default dependencies
-                 [org.clojure/data.json "0.2.6"]
+                 [cheshire "5.10.0"]
                  [ring/ring-defaults "0.3.2"]
-                 [clojure.java-time "0.3.2"]
+                 [faker "0.2.2"]
+                 [re-rand "0.1.0"]
+                 [org.clojure/data.generators "1.0.0"]                 
                  [org.clojure/java.jdbc "0.7.1"]
                  [korma "0.4.3"]
                  [org.postgresql/postgresql "42.2.4"]]
@@ -25,12 +27,13 @@
            :url "jdbc:postgresql://db:5432/dev"
            :user "dev"
            :password "dev"
-           :locations ["filesystem:/usr/src/app/resources/migrations"]
+           :locations ["filesystem:/usr/src/app/resources/test/fixtures"]
            :encoding "UTF-8"}
 
   :ring {:handler clj-test.handler/app}
   
-  :profiles { :test {:resource-paths ["resources/test"]}
+  :profiles { :test {:resource-paths ["resources/test"]
+                     :flyway {:localtion ["filesystem:/usr/src/app/resources/migrations" "filesystem:/usr/src/app/resources/test/fixtures"]}}
               :dev
                     {:resource-paths ["resources/dev"]
                      :dependencies [[javax.servlet/servlet-api "2.5"]
