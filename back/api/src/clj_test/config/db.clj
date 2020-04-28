@@ -1,12 +1,12 @@
 (ns clj-test.config.db
-  (:use [korma.db]
-        [clojure.java.shell :only [sh]]))
+  (:use [clojure.java.shell :only [sh]]))
 
-(defdb db (postgres {:host "db"
-                     :port 5432
-                     :db "dev"
-                     :user "dev"
-                     :password "dev"}))
+(def db-spec
+  {:classname "org.postgresql.Driver"
+   :subprotocol "postgresql"
+   :subname "//db:5432/dev"
+   :user "dev"
+   :password "dev"})
 
 (defn reinit
   "reinitialize database"

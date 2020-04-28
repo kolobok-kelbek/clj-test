@@ -1,13 +1,6 @@
 (ns clj-test.model.patient
-  (:use [korma.core :only [defentity table entity-fields pk]])
   (:require [schema.core :as schema])
   (:import [java.time LocalDate]))
-
-; -- Korma configuration
-(defentity patient
-  (table :patients) ; Associated table
-  (pk :id) ; primary key
-  (entity-fields :id :full_name :gender :dob :address :oms_number)) ; Default field for select
 
 (def patient-schema
   {:id schema/Int

@@ -23,12 +23,12 @@
 (defn create
   "Adds a new patient to the database, returns the id if ok, null if invalid"
   [patient]
-  (let [patient-created (patient-repo/create patient)] patient-created))
+  (patient-repo/create patient))
 
 (defn upgrade
   "Updates an existing patient on the database"
   [id data]
-  (let [patient (patient-repo/upgrade id data)] patient))
+  (patient-repo/upgrade id data))
 
 (defn delete
   "Deletes an existing patient on the database, returns id of deleted patient"

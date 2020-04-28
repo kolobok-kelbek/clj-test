@@ -15,7 +15,7 @@
                  [re-rand "0.1.0"]
                  [org.clojure/data.generators "1.0.0"]                 
                  [org.clojure/java.jdbc "0.7.1"]
-                 [korma "0.4.3"]
+                 [honeysql "0.9.10"]
                  [org.postgresql/postgresql "42.2.4"]]
 
   :plugins [[lein-ring "0.12.5"]
@@ -27,7 +27,7 @@
            :url "jdbc:postgresql://db:5432/dev"
            :user "dev"
            :password "dev"
-           :locations ["filesystem:/usr/src/app/resources/test/fixtures"]
+           :locations ["filesystem:/usr/src/app/resources/migrations"]
            :encoding "UTF-8"}
 
   :ring {:handler clj-test.handler/app}
