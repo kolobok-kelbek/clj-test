@@ -21,24 +21,26 @@
   :plugins [[lein-ring "0.12.5"]
             [com.github.metaphor/lein-flyway "6.0.0"]]
 
-  ;; Flyway Database Migration configuration
-  :flyway {;; Optional - When a config path is passed, that config will be used in place of the below options.
-           :driver "org.postgresql.Driver"
-           :url "jdbc:postgresql://db:5432/dev"
-           :user "dev"
-           :password "dev"
-           :locations ["filesystem:/usr/src/app/resources/migrations"]
-           :encoding "UTF-8"}
-
   :ring {:handler clj-test.handler/app}
   
   :profiles { :test {:resource-paths ["resources/test"]
-                     :flyway {:localtion ["filesystem:/usr/src/app/resources/migrations" "filesystem:/usr/src/app/resources/test/fixtures"]}}
+                     :flyway {:driver "org.postgresql.Driver"
+                              :url "jdbc:postgresql://db:5432/test"
+                              :user "test"
+                              :password "test"
+                              :locations ["filesystem:/usr/src/app/resources/migrations" "filesystem:/usr/src/app/resources/test/fixtures"]
+                              :encoding "UTF-8"}}
               :dev
                     {:resource-paths ["resources/dev"]
                      :dependencies [[javax.servlet/servlet-api "2.5"]
-                                    [ring/ring-mock "0.3.1"]
-                                    ]}}
+                                    [ring/ring-mock "0.3.1"]]
+                     :flyway {;; Optional - When a config path is passed, that config will be used in place of the below options.
+                              :driver "org.postgresql.Driver"
+                              :url "jdbc:postgresql://db:5432/dev"
+                              :user "dev"
+                              :password "dev"
+                              :locations ["filesystem:/usr/src/app/resources/migrations"]
+                              :encoding "UTF-8"}}}
 
   :eastwood {:exclude-linters [:constant-test]
              :include-linters [:deprecations]
