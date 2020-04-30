@@ -94,22 +94,20 @@
 (def patient-to-create
   (get-model))
 
+(defn get-count
+  []
+  (get (first (jdbc/query db/db-spec ["select COUNT(*) as count from patients"])) :count))
+
 (deftest test-patient-controller-create
   (migration/reset)
   
-  (println patient-to-create)
-  
   (testing "Testing patient creation route worked"
-    (let [request (mock/request :post "/api/patients" (json/generate-string patient-to-create))]
-    (let [response (app (mock/content-type request "application/json"))]
-      (let [response-body (slurp (:body response))]
-        (is (= (:status response) 200))
-        (is (= (get (json/parse-string response-body) "full_name") (:full_name patient-to-create)))
-        (is (= (get (json/parse-string response-body) "address") (:address patient-to-create)))
-        (is (= (count (jdbc/query db/db-spec ["select * from patients"])) 15)))))))
+    (let [start-count (get-count)]
+      (let [request (mock/request :post "/api/patients" (json/generate-string patient-to-create))]
+        (let [response (app (mock/content-type request "application/json"))]
+          (let [response-body (slurp (:body response))]
+            (is (= (:status response) 200))
+            (is (= (dissoc (json/parse-string response-body true) :id) patient-to-create))
+            (is (= (get-count) (+ 1 start-count)))))))))
 
- ; (testing "Testing document creation route failed because of incorrect document"
- ;   (let [request (mock/request :post "/documents" (json/generate-string {:id_document "dummy" :title "newDocumentTitle" :description "newDocumentText" :wrongattribute "badvalue"}))]
- ;   (let [response (app (mock/content-type request "application/json"))]
- ;     (is (= (:status response) 400))))))
 
