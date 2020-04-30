@@ -40,6 +40,10 @@
     (let [response (app (mock/request :get "/api/invalid"))]
       (is (= (:status response) 404)))))
 
+(defn get-count
+  []
+  (get (first (jdbc/query db/db-spec ["select COUNT(*) as count from patients"])) :count))
+
 
 ; ------------------
 ; -- Tests on get
@@ -94,10 +98,6 @@
 (def patient-to-create
   (get-model))
 
-(defn get-count
-  []
-  (get (first (jdbc/query db/db-spec ["select COUNT(*) as count from patients"])) :count))
-
 (deftest test-patient-controller-create
   (migration/reset)
   
@@ -110,4 +110,20 @@
             (is (= (dissoc (json/parse-string response-body true) :id) patient-to-create))
             (is (= (get-count) (+ 1 start-count)))))))))
 
+; ------------------
+; -- Tests on update
+; ------------------
+(def patient-to-update
+  (get-model))
 
+(deftest test-patient-controller-update
+  (migration/reset)
+
+  (testing "Testing patient update route worked"
+    (let [request (mock/request :put "/api/patients/1" (json/generate-string patient-to-update))]
+      (let [start-count (get-count)]
+        (let [response (app (mock/content-type request "application/json"))]
+          (let [response-body (slurp (:body response))]
+            (is (= (:status response) 200))
+            (is (= (dissoc (json/parse-string response-body true) :id) patient-to-update))
+            (is (= (get-count) start-count))))))))
