@@ -120,10 +120,21 @@
   (migration/reset)
 
   (testing "Testing patient update route worked"
-    (let [request (mock/request :put "/api/patients/1" (json/generate-string patient-to-update))]
-      (let [start-count (get-count)]
+    (let [start-count (get-count)]
+      (let [request (mock/request :put "/api/patients/1" (json/generate-string patient-to-update))]
         (let [response (app (mock/content-type request "application/json"))]
           (let [response-body (slurp (:body response))]
             (is (= (:status response) 200))
             (is (= (dissoc (json/parse-string response-body true) :id) patient-to-update))
             (is (= (get-count) start-count))))))))
+
+; ------------------
+; -- Tests on delete
+; ------------------
+(deftest test-patient-controller-delete
+  (migration/reset)
+  (testing "Testing pation delete route worked"
+    (let [start-count (get-count)]
+      (let [response (app (mock/request :delete "/api/patients/1"))]
+        (is (= (:status response) 204))
+        (is (= (get-count) (- start-count 1)))))))
