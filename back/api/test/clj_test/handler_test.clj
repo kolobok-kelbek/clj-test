@@ -3,11 +3,13 @@
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
             [clj-test.handler :refer :all]
+            [clojure.java.jdbc :as jdbc]
             [cheshire.core :as json]
             [clojure.data.generators :as gen]
             [faker.name :as faker-name]
             [faker.address :as faker-address]
-            [clj-test.config.db :as db]))
+            [clj-test.config.db :as db]
+            [clj-test.migration :as migration]))
 
 (defn get-full-name
   []
@@ -27,7 +29,7 @@
 
 (defn get-date
   []
-  (gen/date))
+  (.format (new java.text.SimpleDateFormat "yyyy-MM-dd") (gen/date)))
 
 (defn get-model
   []
@@ -43,7 +45,7 @@
 ; -- Tests on get
 ; ------------------
 (deftest test-patient-controller-list
-  (db/reinit)
+  (migration/reset)
 
   (testing "Testing patient list route worked"
     (let [response (app (mock/request :get "/api/patients"))]
@@ -70,7 +72,7 @@
         (is (= (count (get body :data)) 4))))))
 
 (deftest test-patient-controller-getbyid
-  (db/reinit)
+  (migration/reset)
 
   (testing "Testing get patient by id route worked"
     (let [response (app (mock/request :get "/api/patients/1"))]
@@ -85,4 +87,29 @@
       (is (= (:status response) 404)))))
 
 
+; ------------------
+; -- Tests on create
+; ------------------
+
+(def patient-to-create
+  (get-model))
+
+(deftest test-patient-controller-create
+  (migration/reset)
+  
+  (println patient-to-create)
+  
+  (testing "Testing patient creation route worked"
+    (let [request (mock/request :post "/api/patients" (json/generate-string patient-to-create))]
+    (let [response (app (mock/content-type request "application/json"))]
+      (let [response-body (slurp (:body response))]
+        (is (= (:status response) 200))
+        (is (= (get (json/parse-string response-body) "full_name") (:full_name patient-to-create)))
+        (is (= (get (json/parse-string response-body) "address") (:address patient-to-create)))
+        (is (= (count (jdbc/query db/db-spec ["select * from patients"])) 15)))))))
+
+ ; (testing "Testing document creation route failed because of incorrect document"
+ ;   (let [request (mock/request :post "/documents" (json/generate-string {:id_document "dummy" :title "newDocumentTitle" :description "newDocumentText" :wrongattribute "badvalue"}))]
+ ;   (let [response (app (mock/content-type request "application/json"))]
+ ;     (is (= (:status response) 400))))))
 

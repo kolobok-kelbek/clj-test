@@ -4,4 +4,7 @@
   :subname "//db:5432/dev"
   :user "dev"
   :password "dev"
+  :flyway {
+    :locations ["filesystem:/usr/src/app/resources/migrations"]
+  }
 }

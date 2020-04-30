@@ -6,11 +6,3 @@
 (def db-spec
   (->> "db.edn" io/resource slurp edn/read-string))
 
-(def common
-  (->> "common.edn" io/resource slurp edn/read-string))
-
-(defn reinit
-  []
-  (sh "lein" "with-profile" (get common :env) "flyway" "clean")
-  (sh "lein" "with-profile" (get common :env) "flyway" "migrate"))
-

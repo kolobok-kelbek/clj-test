@@ -3,5 +3,9 @@
   :subprotocol "postgresql"
   :subname "//db:5432/test"
   :user "test"
-  :password "test"
+  :password "test" 
+  :flyway {
+    :locations ["filesystem:/usr/src/app/resources/migrations" "filesystem:/usr/src/app/resources/test/fixtures"]
+  }
 }
+

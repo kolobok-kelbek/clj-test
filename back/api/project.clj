@@ -16,10 +16,12 @@
                  [org.clojure/data.generators "1.0.0"]                 
                  [org.clojure/java.jdbc "0.7.1"]
                  [honeysql "0.9.10"]
+                 [org.flywaydb/flyway-core "6.4.0"]
                  [org.postgresql/postgresql "42.2.4"]]
 
   :plugins [[lein-ring "0.12.5"]
-            [com.github.metaphor/lein-flyway "6.0.0"]]
+            [lein-shell "0.4.2"]
+            [lein-exec "0.3.4"]]
 
   :ring {:handler clj-test.handler/app}
   
@@ -47,5 +49,13 @@
              :exclude-namespaces [clojure-rest.config.routes]
              ;:debug [:all]
              ;:out "eastwood-warnings.txt"
-             })
+             }
+  :aliases {
+              "db-clean"   ["exec" "-ep" "(use 'clj-test.migration) (clean)"]
+              "db-migrate" ["exec" "-ep" "(use 'clj-test.migration) (migrate)"]
+              "db-info"    ["exec" "-ep" "(use 'clj-test.migration) (info)"]
+              "db-reset"   ["exec" "-ep" "(use 'clj-test.migration) (reset)"]
+              "ls" ["do" "shell" "ls"]
+              "t" ["exec" "-ep" "(println 42)"]
+           })
 
