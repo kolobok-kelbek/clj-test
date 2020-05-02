@@ -138,3 +138,4 @@
       (let [response (app (mock/request :delete "/api/patients/1"))]
         (is (= (:status response) 204))
         (is (= (get-count) (- start-count 1)))))))
+
