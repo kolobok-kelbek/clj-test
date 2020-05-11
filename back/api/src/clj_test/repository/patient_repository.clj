@@ -16,7 +16,7 @@
 (defn get-list
   "Gets list patients from the database"
   [offset limit]
-  (db-query ["SELECT * FROM patients LIMIT ? OFFSET ?" limit offset]))
+  (db-query ["SELECT * FROM patients ORDER BY id ASC LIMIT ? OFFSET ?" limit offset]))
 
 (defn get-by-id
   "Gets only one patient using its id"
