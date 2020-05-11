@@ -36,9 +36,10 @@
 (defn pagination-start
   []
   (let [current-page (get-current-page)]
-    (if (< (+ current-page deviation) (num-of-pages))
-      (if (<= (- current-page deviation) 0) 1 (- current-page deviation))
-      (- current-page (- 4 (- (num-of-pages) current-page))))))
+    (let [start-page (if (< (+ current-page deviation) (num-of-pages))
+            (if (<= (- current-page deviation) 0) 1 (- current-page deviation))
+              (- current-page (- 4 (- (num-of-pages) current-page))))]
+      (if (> start-page 0) start-page 1))))
 
 (defn pagination-end
   []
@@ -64,13 +65,13 @@
                             :disabled (if (<= (get-offset) 0) true false)}]
     [:> b/pagination.Prev {:on-click #(get-patients (- (get-offset) num-of-pos) num-of-pos handler)
                            :disabled (if (<= (get-offset) 0) true false)}]
-
-    (for [i (range (pagination-start) (pagination-end))]
-      [:> b/pagination.Item {:on-click #(get-patients (* (dec i) num-of-pos) num-of-pos handler)
-                             :active (if (= i (get-current-page)) true false)} i])
+    (if (> (num-of-pages) 0)
+      (for [i (range (pagination-start) (pagination-end))]
+        [:> b/pagination.Item {:on-click #(get-patients (* (dec i) num-of-pos) num-of-pos handler)
+                               :active (if (= i (get-current-page)) true false)} i]))
 
     [:> b/pagination.Next {:on-click #(get-patients (+ (or (get-offset) 0) num-of-pos) num-of-pos handler)
-                           :disabled (if (= (get-offset) (get-max-offset)) true false)}]
+                           :disabled (if (or (>= (get-offset) (get-max-offset)) (<= (num-of-pages) 1)) true false)}]
     [:> b/pagination.Last {:on-click #(get-patients (get-max-offset) num-of-pos handler)
-                           :disabled (if (= (get-offset) (get-max-offset)) true false)}]])
+                           :disabled (if (or (>= (get-offset) (get-max-offset)) (<= (num-of-pages) 1)) true false)}]])
 
