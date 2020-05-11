@@ -27,8 +27,11 @@
 (defn response-handler
   [r]
   (let [offset (or (:offset @pagination/state) 0)]
+    (logger/log offset)
     (reset! state r)
-    (pagination/update-state offset (:total (:meta r)))))
+    (pagination/update-state offset (:total (:meta r)))
+    (logger/log (str @pagination/state))
+    (js/window.history.pushState {} "" (str "?offset=" offset "&limit=" pagination/num-of-pos))))
 
 (defn table-update
   []
@@ -39,9 +42,15 @@
     [:label label]
     input])
 
+(defn query-to-keywords [req]
+  (into {} (for [[_ k v] (re-seq #"([^&=]+)=([^&]+)" req)]
+    [(keyword k) v])))
+
 (defn view
   []
-  (pc/get-patients 0 pagination/num-of-pos response-handler)
+  (let [params (query-to-keywords (subs (-> js/window .-location .-search) 1))]
+    (swap! pagination/state assoc :offset (or (int (:offset params)) 0))
+    (pc/get-patients (or (int (:offset params)) 0) (or (:limit params) pagination/num-of-pos) response-handler))
   (fn [] [:div
     [:> b/table {:striped true :bordered true :hover true}
       [:thead
