@@ -24,17 +24,17 @@
 
 (defn create [patient]
   (log/info (str "create-patient : " patient))
-  (let [patient-created (patient-service/create patient)]
+  (let [patient-created (patient-service/patient-create patient)]
     (response (patient/to-view-identified patient-created))))
 
 (defn upgrade [id patient]
   (log/info "id - " id)
   (log/info "controller update - " (str patient))
-  (let [patient-updated (response (patient/to-view-identified (patient-service/upgrade id patient)))] patient-updated))
+  (let [patient-updated (response (patient/to-view-identified (patient-service/patient-update id patient)))] patient-updated))
 
 (defn delete [id]
   (log/info (str "delete patient with id : " id))
-  (let [deleted-id (patient-service/delete id)]
+  (let [deleted-id (patient-service/patient-delete id)]
     (log/info (str "id of patient deleted : " deleted-id))
     (if (= deleted-id 0) {:status 404} {:status 204})))
 

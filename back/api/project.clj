@@ -16,6 +16,7 @@
                  [org.clojure/data.generators "1.0.0"]                 
                  [org.clojure/java.jdbc "0.7.1"]
                  [honeysql "0.9.10"]
+                 [nilenso/honeysql-postgres "0.2.6"]
                  [org.flywaydb/flyway-core "6.4.0"]
                  [org.postgresql/postgresql "42.2.4"]]
 

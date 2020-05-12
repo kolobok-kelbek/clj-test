@@ -42,7 +42,7 @@
 
 (defn get-count
   []
-  (get (first (jdbc/query db/db-spec ["select COUNT(*) as count from patients"])) :count))
+  (get (first (jdbc/query db/spec ["select COUNT(*) as count from patients"])) :count))
 
 
 ; ------------------

@@ -13,3 +13,9 @@ CREATE TABLE "patients" (
     CONSTRAINT oms_number_check CHECK (oms_number ~ $$^\d{16}\Z$$)
 );
 
+CREATE FUNCTION to_gender(text) RETURNS gender
+    AS 'select $1::gender'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
