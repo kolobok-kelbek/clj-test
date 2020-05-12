@@ -45,7 +45,5 @@
               "db-migrate" ["exec" "-ep" "(use 'clj-test.migration) (migrate)"]
               "db-info"    ["exec" "-ep" "(use 'clj-test.migration) (info)"]
               "db-reset"   ["exec" "-ep" "(use 'clj-test.migration) (reset)"]
-              "ls" ["do" "shell" "ls"]
-              "t" ["exec" "-ep" "(println 42)"]
            })
 
