@@ -7,8 +7,8 @@
                  [compojure "1.6.1"]
                  [http-kit "2.2.0"]
                  [metosin/compojure-api "1.1.11"]
-                 [ring/ring-json "0.4.0"] ; ring server json support
-                 [ring/ring-defaults "0.3.1"] ; ring server default dependencies
+                 [ring/ring-json "0.4.0"]
+                 [ring/ring-defaults "0.3.1"]
                  [cheshire "5.10.0"]
                  [ring/ring-defaults "0.3.2"]
                  [faker "0.2.2"]
@@ -38,8 +38,6 @@
   :eastwood {:exclude-linters [:constant-test]
              :include-linters [:deprecations]
              :exclude-namespaces [clojure-rest.config.routes]
-             ;:debug [:all]
-             ;:out "eastwood-warnings.txt"
              }
   :aliases {
               "db-clean"   ["exec" "-ep" "(use 'clj-test.migration) (clean)"]
